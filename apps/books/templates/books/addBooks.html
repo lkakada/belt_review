@@ -1,0 +1,74 @@
+{% extends 'login/base.html' %}
+{% block title %}Add Book and Review{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal"></h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/books/">Home</a>
+        <a class="p-2 text-dark" href="/logout/">Logout</a>
+    </nav>
+</div>
+<div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="text-danger {{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <h5 class="my-4">Add a New Book Title and Reviews:</h5>
+            <form action="/books/add_book_to_db/" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="title" class="col-sm-3 col-form-label">Book Title:</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Book title"
+                            value={{request.session.title}}>
+                    </div>
+                </div>
+                <label for="alias" class="col-form-label">Author:</label>
+                <div class="form-group row">
+                    <label for="author" class="col-sm-4 col-form-label ml-md-4">Choose from the list:</label>
+                    <div class="col-sm-7">
+                        <select class="form-control" name="select_author" id="author">
+                            <option value="Kristin Hannah">Kristin Hannah</option>
+                            <option value="Maxine Paetro">Maxine Paetro</option>
+                            <option value="James Patterson">James Patterson</option>
+                            <option value="Tommy Orange">Tommy Orange</option>
+                        </select>
+                    </div>
+                    <label for="author" class="col-sm-4 col-form-label ml-md-4 mt-md-2">Or add new author:</label>
+                    <div class="col-sm-7 mt-md-2">
+                        <input type="text" class="form-control" id="add_author" name="add_author"
+                            placeholder="Add author" value={{request.session.author}}>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="email" class="col-sm-3 col-form-label">Reviews:</label>
+                    <div class="col-sm-9">
+                        <textarea name="review" id="review" cols="3" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="rating" class="col-sm-3 col-form-label">Ratings:</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="ratings" id="rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <label for="rating" class="col-sm-3 col-form-label">Stars</label>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Add Books and Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

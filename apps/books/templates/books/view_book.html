@@ -1,0 +1,67 @@
+{% extends 'login/base.html' %}
+{% block title %}View Book and Review{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Belt Review, {{login_user.name.title}}</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/books/">Home</a>
+        <a class="p-2 text-dark" href="/logout/">Logout</a>
+    </nav>
+</div>
+<div class="container">
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li{% if message.tags %} class="text-danger {{ message.tags }}" {% endif %}>{{ message }}</li>
+            {% endfor %}
+    </ul>
+    {% endif %}
+    <h4>{{book.title}}</h4>
+    <p>Author: {{book.author}}</p>
+    <div class="row my-4">
+        <div class="col-sm-12 col-md-6">
+            <h4>Reviews</h4>
+            {% for review in reviews %}
+            <hr>
+            <p>Rating: {{review.rating}} stars</p>
+            <p><u><a href="/users/{{review.reviewing_user.id}}/">{{review.reviewing_user.name.title}}</a></u> said:
+                {{review.review}}</p>
+            <div class="d-flex justify-content-between">
+                <p>Posted on {{review.created_at}}</p>
+                {% if review.reviewing_user.id == request.session.user_id %}
+                <a class="text-danger" href="/users/delete/{{review.id}}/">Delete this review</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-12 col-md-6">
+            <h4>Add a Review:</h4>
+            <form action="/books/add_review/{{book.id}}/" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="email" class="col-sm-3 col-form-label">Reviews:</label>
+                    <div class="col-sm-9">
+                        <textarea name="review" id="review" cols="3" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="rating" class="col-sm-3 col-form-label">Ratings:</label>
+                    <div class="col-sm-2">
+                        <select class="form-control" name="ratings" id="rating">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <label for="rating" class="col-sm-3 col-form-label">Stars</label>
+                </div>
+                <div class="text-right">
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'login/base.html' %}
+{% block title %}Book Home{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Belt Review, {{logged_user.name.title}}</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/books/add/">Add Book and Review</a>
+        <a class="p-2 text-dark" href="/logout/">Logout</a>
+    </nav>
+</div>
+<div class="container">
+    {% if messages %}
+    {% for msg in messages %}
+    <div class="alert alert-success alert-dismissable">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        {{msg.message}}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="row">
+        <div class="col-sm-12 col-md-6">
+            <h4 class="my-4">Recent Book Reviews:</h4>
+            {% for latest in latest_reviews %}
+            <div class="ml-3">
+                <h5><u><a href="/books/{{latest.reviewing_book.id}}/">{{latest.reviewing_book.title.title}}</a></u></h5>
+                <div class="ml-4">
+                    <p>Rating: {{latest.rating}}</p>
+                    <p><u><a href="/users/{{latest.reviewing_user.id}}/">{{latest.reviewing_user.name.title}}</a></u>
+                        say:
+                        {{latest.review}}</p>
+                    <p>Posted on {{latest.created_at}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-sm-12 col-md-5 offset-md-1">
+            <h4 class="my-4">Other Books with Reviews:</h4>
+            {% for book in all_books %}
+            <div class="ml-3">
+                <h5><u><a href="/books/{{book.id}}/">{{book.title.title}}</a></u></h5>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

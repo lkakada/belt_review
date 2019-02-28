@@ -1,0 +1,28 @@
+{% extends 'login/base.html' %}
+{% block title %}View Book and Review{% endblock %}
+{% block content %}
+<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+    <h5 class="my-0 mr-md-auto font-weight-normal">Belt Review, {{user.name.title}}</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+        <a class="p-2 text-dark" href="/books/">Home</a>
+        <a class="p-2 text-dark" href="/books/add/">Add Book and Review</a>
+        <a class="p-2 text-dark" href="/logout/">Logout</a>
+    </nav>
+</div>
+<div class="container">
+    <div class="row my-4">
+        <div class="col-sm-12 col-md-6 offset-md-3">
+            <h5>User Alias: {{ user.alias }}</h5>
+            <p>Name: {{ user.name.title }}</p>
+            <p>Email: {{ user.email }}</p>
+            <p>Total Reviews: {{ total_review }}</p>
+            <div class="mt-5">
+                <p>Posted Reviews on the following books:</p>
+                {% for review in all_reviews %}
+                <h5><u><a href="/books/{{review.reviewing_book.id}}">{{review.reviewing_book.title.title}}</a></u></h5>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
