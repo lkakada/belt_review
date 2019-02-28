@@ -10,7 +10,7 @@ def index(request):
     if 'user_id' not in request.session:
         return render(request, 'login/index.html')
     else:
-        return redirect('books:bookDisplay')
+        return redirect('books:book')
 
 
 def login(request):
@@ -26,7 +26,7 @@ def login(request):
             request.session['user_id'] = result
             messages.success(
                 request, "You have been logged in successfully.")
-        return redirect('books:bookDisplay')
+        return redirect('books:book')
     return render(request, 'login/index.html')
 
 
@@ -44,7 +44,7 @@ def registration(request):
     request.session['user_id'] = user.id
     request.session['name'] = user.name
     messages.success(request, "You have been registered successfully.")
-    return redirect('books:bookDisplay')
+    return redirect('books:book')
 
 
 def logout(request):
